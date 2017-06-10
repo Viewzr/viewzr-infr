@@ -1,0 +1,21 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Fedora_64",
+
+
+    }
+  ],
+  "description": "Viewzr packer template for developer environment",
+  "min_packer_version": "1.0.0",
+  "post_processors": ["vagrant"],
+  "provisioners": [
+    {
+
+    }
+  ],
+  "variables": {
+
+  }
+}
