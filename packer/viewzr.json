@@ -1,21 +1,51 @@
 {
+  "variables": {
+    "description": "Developer environment packer built for Viewzr",
+    "company": "viewzr",
+    "version": "2.0",
+    "os": "Fedora",
+    "os_version": "25",
+    "iso_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/25/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-25-1.3.iso",
+    "iso_checksum_url": "https://getfedora.org/static/checksums/Fedora-Workstation-25-1.3-x86_64-CHECKSUM",
+    "iso_checksum_type": "sha256",
+    "headless": "true"
+  },
   "builders": [
     {
       "type": "virtualbox-iso",
       "guest_os_type": "Fedora_64",
-
-
+      "vm_name": "{{ user `company` }}-{{ user `version` }}-dev",
+      "http_directory": "http",
+      "iso_url": "{{ user `iso_url`}}",
+      "iso_checksum_url": "{{ user `iso_checksum_url` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_wait_timeout": "6000s",
+      "disk_size": 50000,
+      "headless": "{{ user `headless`}}",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "4096"],
+        ["modifyvm", "{{.Name}}", "--cpus", "2"]
+      ],
+      "export_opts": [
+        "--manifest",
+        "--vsys", "0",
+        "--description", "{{ user `description` }}",
+        "--version", "{{ user `version` }}"
+      ],
+      "format": "ova"
     }
   ],
   "description": "Viewzr packer template for developer environment",
   "min_packer_version": "1.0.0",
-  "post_processors": ["vagrant"],
-  "provisioners": [
+  "provisioners": [],
+  "post-processors": [
     {
-
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "vagrantfile_template": "tpl/Vagrantfile.tpl",
+      "output": "box/{{.Provider}}/{{user `company`}}-{{user `version`}}-{{user `os`}}{{user `os_version`}}-dev.box"
     }
-  ],
-  "variables": {
-
-  }
+  ]
 }
