@@ -4,7 +4,7 @@ build:
 	packer build viewzr.json
 
 publish:
-	bash ./publish.sh
+	bash scripts/publish.sh
 
 clean:
 	rm -rf box packer_cache
