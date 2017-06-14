@@ -15,7 +15,7 @@
     "no_proxy": "{{ env `no_proxy` }}",
     "rsync_proxy": "{{ env `rsync_proxy` }}",
     "update": "true",
-    "kickstart": "cfg/ks-fedora25.cfg",
+    "kickstart": "file://C;/Users/msleevi/git/viewzr-infr/cfg/ks-fedora25.cfg",
     "install_vagrant_key": "true",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant"
@@ -39,7 +39,7 @@
         ["modifyvm", "{{.Name}}", "--cpus", "2"]
       ],
       "boot_command": [
-        "<tab> linux text biosdevname=0 ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter><enter>"
+        "<tab> linux text biosdevname=0 ks={{ user `kickstart` }}<enter>"
       ],
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
       "format": "ova",
