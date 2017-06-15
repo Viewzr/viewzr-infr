@@ -15,15 +15,19 @@
     "no_proxy": "{{ env `no_proxy` }}",
     "rsync_proxy": "{{ env `rsync_proxy` }}",
     "update": "true",
-    "kickstart": "file://C;/Users/msleevi/git/viewzr-infr/cfg/ks-fedora25.cfg",
+    "kickstart": "ks-fedora25.cfg",
     "install_vagrant_key": "true",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant"
   },
   "builders": [
     {
+      "boot_command": [
+        "<tab> linux ks={{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `kickstart` }}<enter><enter>"
+      ],
       "type": "virtualbox-iso",
       "guest_os_type": "Fedora_64",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "vm_name": "{{ user `company` }}-{{ user `version` }}-dev",
       "http_directory": "http",
       "iso_url": "{{ user `iso_url`}}",
@@ -35,11 +39,12 @@
       "disk_size": 50000,
       "headless": "{{ user `headless`}}",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "4096"],
-        ["modifyvm", "{{.Name}}", "--cpus", "2"]
-      ],
-      "boot_command": [
-        "<tab> linux text biosdevname=0 ks={{ user `kickstart` }}<enter>"
+        [
+          "modifyvm", "{{.Name}}", "--memory", "4096"
+        ],
+        [
+          "modifyvm", "{{.Name}}", "--cpus", "2"
+        ]
       ],
       "shutdown_command": "echo 'vagrant' | sudo -S shutdown -h now",
       "format": "ova",
@@ -62,6 +67,7 @@
         "rsync_proxy={{user `rsync_proxy` }}",
         "no_proxy={{ user `no_proxy` }}"
       ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
       "scripts": [
         "scripts/sshd.sh",
         "scripts/update.sh",
@@ -74,8 +80,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "keep_input_artifact": true,
-      "vagrantfile_template": "tpl/Vagrantfile.tpl",
+      "keep_input_artifact": false,
       "output": "box/{{.Provider}}/{{user `company`}}-{{user `version`}}-{{user `os`}}{{user `os_version`}}-dev.box"
     }
   ]
