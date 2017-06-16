@@ -5,8 +5,8 @@
     "version": "2.0",
     "os": "Fedora",
     "os_version": "25",
-    "iso_url": "https://download.fedoraproject.org/pub/fedora/linux/releases/25/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-25-1.3.iso",
-    "iso_checksum_url": "https://getfedora.org/static/checksums/Fedora-Workstation-25-1.3-x86_64-CHECKSUM",
+    "iso_url": "http://mirror.sfo12.us.leaseweb.net/fedora/linux/releases/25/Server/x86_64/iso/Fedora-Server-dvd-x86_64-25-1.3.iso",
+    "iso_checksum": "524bd959dae09ad6fc8e0476ea478700d89f82ec5795d0b1a7b873613f3f26ac",
     "iso_checksum_type": "sha256",
     "ftp_proxy": "{{ env `ftp_proxy` }}",
     "headless": "false",
@@ -22,22 +22,22 @@
   },
   "builders": [
     {
-      "boot_command": [
-        "<tab> linux ks={{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `kickstart` }}<enter><enter>"
-      ],
+      "http_directory": "cfg",
       "type": "virtualbox-iso",
       "guest_os_type": "Fedora_64",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "vm_name": "{{ user `company` }}-{{ user `version` }}-dev",
-      "http_directory": "http",
       "iso_url": "{{ user `iso_url`}}",
-      "iso_checksum_url": "{{ user `iso_checksum_url` }}",
+      "iso_checksum": "{{ user `iso_checksum` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "ssh_username": "{{ user `ssh_username` }}",
       "ssh_password": "{{ user `ssh_password` }}",
       "ssh_wait_timeout": "1000s",
       "disk_size": 50000,
       "headless": "{{ user `headless`}}",
+      "boot_command": [
+        "<tab> text biosdevname=0 ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/{{ user `kickstart` }}<enter><enter>"
+      ],
       "vboxmanage": [
         [
           "modifyvm", "{{.Name}}", "--memory", "4096"
