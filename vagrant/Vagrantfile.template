@@ -5,7 +5,7 @@ distro="25"
 
 Vagrant.configure("2") do |config|
   config.vm.hostname = "#{company}-dev"
-  config.vm.box      = "ubuntu/xenial64"
+  config.vm.box      = "packer/box/virtualbox/#{company}-#{version}-#{os}#{distro}-dev.box"
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
   config.vm.provider "virtualbox" do |vb|
