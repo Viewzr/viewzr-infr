@@ -2,7 +2,6 @@
 
 ATOM_DL=https://github.com/atom/atom/releases/download/v1.18.0/atom.x86_64.rpm
 
-
 function set_up_env {
   cd ~/Downloads/
 }
@@ -15,7 +14,7 @@ function install_atom {
 
 function install_atom_packages {
   echo "Installing packages for atom..."
-  packages=("platformio-ide-terminal", "line-ending-converter")
+  packages=("platformio-ide-terminal", "line-ending-converter", "atom-jshint")
   for package in ${packages[@]}; do
     sudo apm install $package
   done

@@ -1,12 +1,15 @@
 #!/bin/bash
 
 LOG_FILE=/var/log/viewzr/install/install.log
-FIREFOX=https://download.mozilla.org/?product=firefox-54.0-SSL&os=linux64&lang=en-US
+FIREFOX=https://ftp.mozilla.org/pub/firefox/releases/54.0/linux-x86_64/en-US/firefox-50.0.tar.bz2
 
 function set_up_logs {
   sudo mkdir -p /var/log/viewzr/install/
-  cat <<- EOF | sudo tee install.log
-  This is the start of the viewzr developer environment install log...
+  sudo touch /var/log/viewzr/install/install.log
+  cat <<-EOM
+    "This is the start of the viewzr developer environment install log..."
+EOM
+  sudo chmod 666 /var/log/viewzr/install/install.log
 }
 
 function install_travis {
@@ -18,8 +21,8 @@ function install_travis {
 function install_firefox {
   echo "Installing firefox browser..."
   wget $FIREFOX | tar xvzf -C /opt/ >> $LOG_FILE 2>&1
-  sudo ln -s /opt/firefox-54.0/firefox /usr/local/bin/firefox/ >> $LOG_FILE 2>&1
-  (cat <<- EOF | sudo tee /usr/share/applications/firefox.desktop
+  sudo ln -s /opt/firefox/firefox /usr/local/bin/firefox/ >> $LOG_FILE 2>&1
+  cat <<-EOM | sudo tee /usr/share/applications/firefox.desktop
   #!/usr/bin/env xdg-open >
 
   [Desktop Entry]
@@ -34,10 +37,17 @@ function install_firefox {
   MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;
   StartupNotify=true
   X-Desktop-File-Install-Version=0.15
-  Categories=Network;WebBrowser;) >> $LOG_FILE 2>&1
-
+  Categories=Network;WebBrowser;
+EOM
+  install_ff_dependencies
+  sudo rm -f ./firefox
   echo "Firefox was successfully installed..."
 }
+
+function install_ff_dependencies {
+  sudo dnf install -y gtk3 libXt
+}
+
 
 function install_git {
   echo "Installing git/gitk..."
