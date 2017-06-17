@@ -7,9 +7,16 @@ function set_up_logs {
   sudo mkdir -p /var/log/viewzr/install/
   sudo touch /var/log/viewzr/install/install.log
   cat <<-EOM
-    "This is the start of the viewzr developer environment install log..."
+This is the start of the viewzr developer environment install log...
 EOM
   sudo chmod 666 /var/log/viewzr/install/install.log
+}
+
+function gui {
+  echo "==> Installing Graphical Interface"
+  sudo dnf -y groupinstall "Development and Creative Workstation" gnome
+  echo "==> Setting server to use GUI on startup"
+  sudo systemctl set-default graphical.target
 }
 
 function install_dependencies {
@@ -22,13 +29,13 @@ function install_travis_dependencies {
 }
 
 function install_travis {
-  echo "Installing travis-cli..."
+  echo "==> Installing travis-cli..."
   gem install travis >> $LOG_FILE 2>&1
-  echo "Travis install successful..."
+  echo "==> Travis install successful..."
 }
 
 function install_firefox {
-  echo "Installing firefox browser..."
+  echo "==> Installing firefox browser..."
   wget $FIREFOX | tar xvzf -C /opt/ >> $LOG_FILE 2>&1
   sudo ln -s /opt/firefox/firefox /usr/local/bin/firefox/ >> $LOG_FILE 2>&1
   cat <<-EOM | sudo tee /usr/share/applications/firefox.desktop
@@ -50,7 +57,7 @@ function install_firefox {
 EOM
   install_ff_dependencies
   sudo rm -f ./firefox
-  echo "Firefox was successfully installed..."
+  echo "==> Firefox was successfully installed..."
 }
 
 function install_ff_dependencies {
@@ -59,22 +66,22 @@ function install_ff_dependencies {
 
 
 function install_git {
-  echo "Installing git/gitk..."
+  echo "==> Installing git/gitk..."
   sudo dnf install --enablerepo=base --assumeyes git gitk >> $LOG_FILE 2>&1
-  echo "Git was installed successfully..."
+  echo "==> Git was installed successfully..."
 }
 
 function install_ruby {
-  echo "Installing ruby..."
+  echo "==> Installing ruby..."
   sudo dnf install --enablerepo=base --assumeyes ruby ruby-devel >> $LOG_FILE 2>&1
-  echo "Ruby was installed successfully..."
+  echo "==> Ruby was installed successfully..."
 }
 
 function install_node {
-  echo "Installing node v7..."
+  echo "==> Installing node v7..."
   sudo curl -sL https://rpm.nodesource.com/setup_7.x | sudo bash - >> $LOG_FILE 2>&1
   sudo dnf -y install nodejs >> $LOG_FILE 2>&1
-  echo "Latest node installed..."
+  echo "==> Latest node installed..."
 }
 
 function main {
@@ -84,6 +91,8 @@ function main {
   install_node
   install_travis
   install_firefox
+  gui
+  sudo shutdown -r now
 }
 
 main
