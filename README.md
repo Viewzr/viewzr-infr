@@ -54,6 +54,8 @@ The final step is to complete the set up scripts. This is a time consuming part 
 ```bash
 # Create the environment
 env_create.sh
+# Log back in after the reboot completes....
+vagrant ssh
 # Create your user
 user_create.sh
 # Change to your user
