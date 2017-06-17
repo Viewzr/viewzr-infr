@@ -62,7 +62,6 @@ su - <username>
 
 The final steps are to create your ssh keys and clone the repos.
 ```bash
-su - <username>
 # Generate keys, if you don't know the answer to the questions, hit <enter>
 ssh-keygen -t rsa -b 4096
 ```
