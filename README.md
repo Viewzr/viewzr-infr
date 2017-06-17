@@ -8,8 +8,9 @@ This includes packer and vagrant at the moment.
 
 The developer environment set up is fairly straightforward. Just ensure that you follow these instructions.
 
-There are some prerequisites for installing this developer environment. First, I would suggest that you use a decent Linux-like terminal. On Mac this is the standard terminal, on Windows you can download something like [cmder](http://cmder.net/), [git bash](https://git-scm.com/downloads) or [cygwin](https://www.cygwin.com/). Once you have a standard terminal to use, download Vagrant and Packer.
+There are some prerequisites for installing this developer environment. First, I would suggest that you use a decent Linux-like terminal. On Mac this is the standard terminal, on Windows you can download something like [cmder](http://cmder.net/), [git bash](https://git-scm.com/downloads) or [cygwin](https://www.cygwin.com/). Once you have a standard terminal to use, download Vagrant, VirtualBox and Packer.
 
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * [Vagrant](https://www.vagrantup.com/)
 * [Packer](https://www.packer.io/)
 
