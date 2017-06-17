@@ -12,9 +12,18 @@ EOM
   sudo chmod 666 /var/log/viewzr/install/install.log
 }
 
+function install_dependencies {
+  sudo dnf -y groupinstall "Development Tools"
+  sudo dnf -y install gcc make
+}
+
+function install_travis_dependencies {
+  sudo dnf install -y libffi
+}
+
 function install_travis {
   echo "Installing travis-cli..."
-  gem install travis -v 1.8.8 --no-rdoc --no-ri >> $LOG_FILE 2>&1
+  gem install travis >> $LOG_FILE 2>&1
   echo "Travis install successful..."
 }
 
@@ -64,6 +73,7 @@ function install_ruby {
 function install_node {
   echo "Installing node v7..."
   sudo curl -sL https://rpm.nodesource.com/setup_7.x | sudo bash - >> $LOG_FILE 2>&1
+  sudo dnf -y install nodejs >> $LOG_FILE 2>&1
   echo "Latest node installed..."
 }
 

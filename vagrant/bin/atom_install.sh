@@ -14,9 +14,9 @@ function install_atom {
 
 function install_atom_packages {
   echo "Installing packages for atom..."
-  packages=("platformio-ide-terminal", "line-ending-converter", "atom-jshint")
+  packages=("platformio-ide-terminal" "line-ending-converter" "atom-jshint")
   for package in ${packages[@]}; do
-    sudo apm install $package
+    apm install $package
   done
   echo "Packages for atom installed..."
 }
