@@ -21,7 +21,7 @@ Once that is complete, you are ready to move forward. The first step is to set u
 mkdir -p ~/git/
 cd ~/git/
 # Clone the repository
-git clone git@github.com:Viewzr-infr/Viewzr-infr.git
+git clone git@github.com:Viewzr-infr/viewzr-infr.git
 ```
 
 #### Packer
